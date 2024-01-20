@@ -14,6 +14,7 @@ import { cache } from "react";
 import { appRouter, type AppRouter } from "@/server/api/root";
 import { createTRPCContext } from "@/server/api/trpc";
 import { transformer } from "./shared";
+import { GetRawInputFn } from "node_modules/@trpc/server/dist/unstable-core-do-not-import/types";
 
 /**
  * This wraps the `createTRPCContext` helper and provides the required context for the tRPC API when
@@ -48,7 +49,7 @@ export const api = createTRPCProxyClient<AppRouter>({
               return callProcedure({
                 procedures: appRouter._def.procedures,
                 path: op.path,
-                rawInput: op.input,
+                getRawInput: op.input as GetRawInputFn,
                 ctx,
                 type: op.type,
               });
